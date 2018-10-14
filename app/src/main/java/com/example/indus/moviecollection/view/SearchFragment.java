@@ -1,6 +1,7 @@
 package com.example.indus.moviecollection.view;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.example.indus.moviecollection.R;
 import com.example.indus.moviecollection.adapters.TheMovieRecyclerAdapter;
 import com.example.indus.moviecollection.model.TheMovie;
@@ -23,7 +25,7 @@ public class SearchFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View searchFragment = inflater.inflate(R.layout.fragment_search, container, false);
         searchRecycler = searchFragment.findViewById(R.id.search_recycler);
         layoutManager = new LinearLayoutManager(searchFragment.getContext());
@@ -34,15 +36,7 @@ public class SearchFragment extends Fragment {
         return searchFragment;
     }
 
-
-    private void setupAdapter(List<TheMovie> data){
-        moviesAdapter = new TheMovieRecyclerAdapter(data);
-        searchRecycler.setLayoutManager(layoutManager);
-        searchRecycler.setAdapter(moviesAdapter);
-        moviesAdapter.notifyDataSetChanged();
-    }
-
-    public void setData(List<TheMovie> data){
+    public void setData(List<TheMovie> data) {
         theMovies = data;
         setupAdapter(theMovies);
     }
@@ -55,5 +49,12 @@ public class SearchFragment extends Fragment {
             }
             moviesAdapter.notifyItemRangeRemoved(0, size);
         }
+    }
+
+    private void setupAdapter(List<TheMovie> data) {
+        moviesAdapter = new TheMovieRecyclerAdapter(data);
+        searchRecycler.setLayoutManager(layoutManager);
+        searchRecycler.setAdapter(moviesAdapter);
+        moviesAdapter.notifyDataSetChanged();
     }
 }

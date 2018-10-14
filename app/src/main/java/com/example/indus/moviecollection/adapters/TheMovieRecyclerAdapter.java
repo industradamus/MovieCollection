@@ -21,7 +21,7 @@ import java.util.List;
 
 public class TheMovieRecyclerAdapter extends RecyclerView.Adapter<TheMovieRecyclerAdapter.FavoritesMoviesHolder> {
 
-    List theMovies;
+    private List theMovies;
 
     public TheMovieRecyclerAdapter(List theMovies) {
         this.theMovies = theMovies;
@@ -32,29 +32,28 @@ public class TheMovieRecyclerAdapter extends RecyclerView.Adapter<TheMovieRecycl
     public FavoritesMoviesHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
         View favoritesItem = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.favorites_item, viewGroup, false);
-        FavoritesMoviesHolder vh = new FavoritesMoviesHolder(favoritesItem);
-        return vh;
+        return new FavoritesMoviesHolder(favoritesItem);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FavoritesMoviesHolder favoritesMoviesHolder,int position) {
+    public void onBindViewHolder(@NonNull FavoritesMoviesHolder favoritesMoviesHolder, int position) {
         final boolean isMovieDetails = theMovies.get(position) instanceof TheMovieDetails;
-        String title = isMovieDetails ? ((TheMovieDetails)theMovies.get(position)).getTitle()
-                : ((TheMovie)theMovies.get(position)).getTitle();
-        String vote = String.valueOf(isMovieDetails ? ((TheMovieDetails)theMovies.get(position)).getVoteAverage()
-                : ((TheMovie)theMovies.get(position)).getVoteAverage());
-        String posterPath = isMovieDetails ? ((TheMovieDetails)theMovies.get(position)).getPosterPath()
-                : ((TheMovie)theMovies.get(position)).getPosterPath();
-        String releaseDate = isMovieDetails ? ((TheMovieDetails)theMovies.get(position)).getReleaseDate()
-                : ((TheMovie)theMovies.get(position)).getReleaseDate();
-        final int id = isMovieDetails ? ((TheMovieDetails)theMovies.get(position)).getId()
-                : ((TheMovie)theMovies.get(position)).getId();
+        String title = isMovieDetails ? ((TheMovieDetails) theMovies.get(position)).getTitle()
+                : ((TheMovie) theMovies.get(position)).getTitle();
+        String vote = String.valueOf(isMovieDetails ? ((TheMovieDetails) theMovies.get(position)).getVoteAverage()
+                : ((TheMovie) theMovies.get(position)).getVoteAverage());
+        String posterPath = isMovieDetails ? ((TheMovieDetails) theMovies.get(position)).getPosterPath()
+                : ((TheMovie) theMovies.get(position)).getPosterPath();
+        String releaseDate = isMovieDetails ? ((TheMovieDetails) theMovies.get(position)).getReleaseDate()
+                : ((TheMovie) theMovies.get(position)).getReleaseDate();
+        final int id = isMovieDetails ? ((TheMovieDetails) theMovies.get(position)).getId()
+                : ((TheMovie) theMovies.get(position)).getId();
 
         Glide.with(App.getsInstance().getApplicationContext())
                 .load(Const.BASE_IMAGE_URL +
                         posterPath)
                 .into(favoritesMoviesHolder.posterPath);
-        favoritesMoviesHolder.titleAndData.setText(title + " (" + releaseDate + ")");
+        favoritesMoviesHolder.date.setText(title + " (" + releaseDate + ")");
         favoritesMoviesHolder.rating.setText(vote);
 
         favoritesMoviesHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -73,15 +72,15 @@ public class TheMovieRecyclerAdapter extends RecyclerView.Adapter<TheMovieRecycl
         return theMovies.size();
     }
 
-    public static class FavoritesMoviesHolder extends RecyclerView.ViewHolder {
+    static class FavoritesMoviesHolder extends RecyclerView.ViewHolder {
         private ImageView posterPath;
-        private TextView titleAndData;
+        private TextView date;
         private TextView rating;
 
-        public FavoritesMoviesHolder(@NonNull View itemView) {
+        FavoritesMoviesHolder(@NonNull View itemView) {
             super(itemView);
             posterPath = itemView.findViewById(R.id.poster_path);
-            titleAndData = itemView.findViewById(R.id.title_and_data);
+            date = itemView.findViewById(R.id.title_and_data);
             rating = itemView.findViewById(R.id.vote_average);
         }
     }
