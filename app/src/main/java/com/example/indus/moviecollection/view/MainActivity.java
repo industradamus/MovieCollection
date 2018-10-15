@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.example.indus.moviecollection.Const;
 import com.example.indus.moviecollection.R;
 import com.example.indus.moviecollection.model.TheMovie;
 import com.example.indus.moviecollection.network.IOnDataLoaded;
@@ -25,7 +24,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText searchView;
     private ImageView searchButton;
     private ImageView clearSearchButton;
+    private TextWatcher searchWatcher;
 
+    private FavoritesFragment favoritesFragment;
     private FrameLayout searchFragmentContainer;
     private FrameLayout favoritesFragmentContainer;
 
@@ -38,11 +39,10 @@ public class MainActivity extends AppCompatActivity {
 
         intiView();
 
-        searchFragmentContainer.setVisibility(View.INVISIBLE);
-        TextWatcher searchWatcher = initTextWatcher();
-        searchView.addTextChangedListener(searchWatcher);
-
         clearSearchButton.setVisibility(View.INVISIBLE);
+        searchFragmentContainer.setVisibility(View.INVISIBLE);
+        searchWatcher = initTextWatcher();
+        searchView.addTextChangedListener(searchWatcher);
         clearSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
                 searchFragment.clear();
             }
         });
-
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
         searchFragmentContainer = findViewById(R.id.fragment_search_container);
         favoritesFragmentContainer = findViewById(R.id.favorites_container);
         searchFragment = (SearchFragment) getSupportFragmentManager().findFragmentById(R.id.search_fragment);
-        }
+        favoritesFragment = (FavoritesFragment) getSupportFragmentManager().findFragmentById(R.id.favorites_fragment);
+    }
 
     private void showClearButton(boolean isVisible) {
         clearSearchButton.setVisibility(isVisible ? View.VISIBLE : View.GONE);
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         Network.getInstance().searchMovie(search, new IOnDataLoaded<List<TheMovie>>() {
             @Override
             public void onNewDataLoaded(List<TheMovie> data) {
-                Log.e(Const.MY_LOGS,"Data size is: " + data.size());
+                Log.e("onNewData","data size is: " + data.size());
                 searchFragment.setData(data);
             }
 
@@ -115,11 +115,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
 
-                if(editable.length() > 1){
+                if(editable.length() > 1 && (editable.length()%2) == 0 ){
                     showClearButton(true);
                     searchFragmentContainer.setVisibility(View.VISIBLE);
                     favoritesFragmentContainer.setVisibility(View.INVISIBLE);
-                    internetRequest(editable.toString());
+                   internetRequest(editable.toString());
                 }else {
                     searchFragmentContainer.setVisibility(View.INVISIBLE);
                     favoritesFragmentContainer.setVisibility(View.VISIBLE);

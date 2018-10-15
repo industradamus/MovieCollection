@@ -1,7 +1,6 @@
 package com.example.indus.moviecollection.view;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -12,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.indus.moviecollection.Const;
 import com.example.indus.moviecollection.R;
 import com.example.indus.moviecollection.adapters.TheMovieRecyclerAdapter;
 import com.example.indus.moviecollection.database.DatabaseCallback;
@@ -32,7 +30,7 @@ public class FavoritesFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View favoritesFragment = inflater.inflate(R.layout.fragment_favorites, container, false);
 
         favoritesRecycler = favoritesFragment.findViewById(R.id.favorites_recycler);
@@ -45,7 +43,7 @@ public class FavoritesFragment extends Fragment {
             @Override
             public void onDataLoaded(List<TheMovieDetails> data) {
                 if (data == null) {
-                    Log.e(Const.MY_LOGS, "No available data in DB");
+                    Log.e("xxx", "no available data in db");
                     return;
                 }
                 theMovies = data;
@@ -68,7 +66,7 @@ public class FavoritesFragment extends Fragment {
             @Override
             public void onDataLoaded(List<TheMovieDetails> data) {
                 if (data == null) {
-                    Log.e(Const.MY_LOGS, "No available data in DB");
+                    Log.e("xxx", "no available data in db");
                     return;
                 }
                 theMovies = data;

@@ -2,7 +2,6 @@ package com.example.indus.moviecollection.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -46,11 +45,11 @@ public class DetailsActivity extends AppCompatActivity {
         String action = intent.getAction();
         int idMovie = intent.getIntExtra(Const.MOVIE_ID, -1);
         if(TextUtils.isEmpty(action) || idMovie  == -1){
-            Snackbar.make(title, "Load Error", Snackbar.LENGTH_SHORT).show();
+            //отборазить ошибку
             return;
         }
 
-        Log.e(Const.MY_LOGS,"Details activity action is: " + action);
+        Log.e("xxx","details activity action is: " + action);
         switch (action){
             case Const.ACTION_FROM_DB:
                 MovieDBManager.getInstance().getMovieById(idMovie, new DatabaseCallback<TheMovieDetails>() {
@@ -64,7 +63,7 @@ public class DetailsActivity extends AppCompatActivity {
 
                     @Override
                     public void onActionSuccess() {
-                        Snackbar.make(title, "Load Success", Snackbar.LENGTH_SHORT).show();
+
                     }
                 });
                 break;
@@ -80,7 +79,7 @@ public class DetailsActivity extends AppCompatActivity {
 
                     @Override
                     public void onErrorDataLoaded() {
-                        Snackbar.make(title, "Load Error", Snackbar.LENGTH_SHORT).show();
+
                     }
                 });
                 break;
